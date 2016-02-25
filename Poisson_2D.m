@@ -12,5 +12,12 @@ I1D = speye(size(K1D));                       % 1d identity matrix
 K2D = kron(K1D,I1D)+kron(I1D,K1D);            % 2d Poisson matrix (sparse format)
 spy(K2D);
 
+%save the matrix into file
+save('matrix.mat', 'K2D');
+
+%save a sparse matrix as a dense matrix
+A = full(K2D);
+save('matrix_dense.mat', 'A', '-ascii');
+
 f2D = h^2*ones(n^2,1);                        % 2d right hand side
 u2D = K2D\f2D;                                % exact solution
