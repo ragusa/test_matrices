@@ -21,3 +21,4 @@ save('matrix_dense.mat', 'A', '-ascii');
 
 f2D = h^2*ones(n^2,1);                        % 2d right hand side
 u2D = K2D\f2D;                                % exact solution
+spy();
