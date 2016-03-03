@@ -2,7 +2,7 @@
 # gitignore
 
 *.mat
-*.png
+# *.png
 *.jpg
 *.jpeg
 *.fig
