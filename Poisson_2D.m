@@ -1,4 +1,5 @@
 close all; clc; clear all;
+format shortE;
 addpath ./forked_MESHND;
 addpath ./Morton;
 addpath ./Hilbert;
@@ -6,9 +7,10 @@ addpath ./Plotting;
 
 q = 5;
 n = 2^q
+N = n*n;
 % n = 2^5 = 32; % Problem size in linear dimension
 
-flag_save_files = 1;
+flag_save_files = 0;
 
 h = 1/(n+1);
 h2=(n+1)*(n+1);
@@ -75,54 +77,65 @@ spy(A_nat);
 title(h,'Natural ordering')
 xlabel(h,'');
 ylabel(h,'');
-set(h,'XTick',[1 256 512 768 1024]);
-set(h,'YTick',[1 256 512 768 1024]);
+set(h,'XTick',[]);
+set(h,'YTick',[]);
+% set(h,'XTick',[1 N*(1/4) N*(1/2) N*(3/4) N]);
+% set(h,'YTick',[1 N*(1/4) N*(1/2) N*(3/4) N]);
 
 h = subplot(2,3,2);
 spy(A_mor);
 title(h,'Morton ordering (Z)')
 xlabel(h,'');
 ylabel(h,'');
-set(h,'XTick',[1 256 512 768 1024]);
-set(h,'YTick',[1 256 512 768 1024]);
+set(h,'XTick',[]);
+set(h,'YTick',[]);
+% set(h,'XTick',[1 N*(1/4) N*(1/2) N*(3/4) N]);
+% set(h,'YTick',[1 N*(1/4) N*(1/2) N*(3/4) N]);
 
 h = subplot(2,3,3);
 spy(A_hil);
 title(h,'Hilbert ordering (H)')
 xlabel(h,'');
 ylabel(h,'');
-set(h,'XTick',[1 256 512 768 1024]);
-set(h,'YTick',[1 256 512 768 1024]);
+set(h,'XTick',[]);
+set(h,'YTick',[]);
+% set(h,'XTick',[1 N*(1/4) N*(1/2) N*(3/4) N]);
+% set(h,'YTick',[1 N*(1/4) N*(1/2) N*(3/4) N]);
 
 h = subplot(2,3,4);
 spy(A_ndi);
 title(h,'Nested Dissection')
 xlabel(h,'');
 ylabel(h,'');
-set(h,'XTick',[1 256 512 768 1024]);
-set(h,'YTick',[1 256 512 768 1024]);
+set(h,'XTick',[]);
+set(h,'YTick',[]);
+% set(h,'XTick',[1 N*(1/4) N*(1/2) N*(3/4) N]);
+% set(h,'YTick',[1 N*(1/4) N*(1/2) N*(3/4) N]);
 
 h = subplot(2,3,5);
 spy(A_rcm);
 title(h,'Cuthill-McKee')
 xlabel(h,'');
 ylabel(h,'');
-set(h,'XTick',[1 256 512 768 1024]);
-set(h,'YTick',[1 256 512 768 1024]);
+set(h,'XTick',[]);
+set(h,'YTick',[]);
+% set(h,'XTick',[1 N*(1/4) N*(1/2) N*(3/4) N]);
+% set(h,'YTick',[1 N*(1/4) N*(1/2) N*(3/4) N]);
 
 h = subplot(2,3,6);
 spy(A_amd);
 title(h,'Algebraic minimum degree')
 xlabel(h,'');
 ylabel(h,'');
-set(h,'XTick',[1 256 512 768 1024]);
-set(h,'YTick',[1 256 512 768 1024]);
+set(h,'XTick',[]);
+set(h,'YTick',[]);
+% set(h,'XTick',[1 N*(1/4) N*(1/2) N*(3/4) N]);
+% set(h,'YTick',[1 N*(1/4) N*(1/2) N*(3/4) N]);
 
 
 % Main title
-p=mtit('2D Poisson. 5pt stencil. N = 1,024',...
-     'fontsize',14,...
-     'xoff',0,'yoff',.025);
+titleString = sprintf('2D Poisson. 5pt stencil. N = %d',N);
+p=mtit(titleString,'fontsize',14,'xoff',0,'yoff',.025);
 
 if (flag_save_files ==1)
 	disp('Saving matrices to file');
@@ -144,17 +157,19 @@ if (flag_save_files ==1)
 	% save('dA_ndi.mat', 'dA_ndi', '-ascii');
 
 	% Save Dense matrices into file
-	iA_nat = inv( full( K2D(p_nat,p_nat) ) );
-	iA_amd = inv( full( K2D(p_amd,p_amd) ) );
-	iA_rcm = inv( full( K2D(p_rcm,p_rcm) ) );
-	iA_ndi = inv( full( K2D(p_ndi,p_ndi) ) );
-	iA_mor = inv( full( K2D(p_mor,p_mor) ) );
-	iA_hil = inv( full( K2D(p_hil,p_hil) ) );
 
-	save('iA_nat.mat', 'iA_nat', '-ascii');
-	save('iA_amd.mat', 'iA_amd', '-ascii');
-	save('iA_rcm.mat', 'iA_rcm', '-ascii');
-	save('iA_ndi.mat', 'iA_ndi' ,'-ascii');
-	save('iA_mor.mat', 'iA_mor' ,'-ascii');
-	save('iA_hil.mat', 'iA_hil' ,'-ascii');
+	iA_nat = inv( full( K2D(p_nat,p_nat) ) );
+	iA_mor = iA_nat(p_mor,p_mor);
+	iA_hil = iA_nat(p_hil,p_hil);
+	iA_ndi = iA_nat(p_ndi,p_ndi);
+	iA_rcm = iA_nat(p_rcm,p_rcm);
+	iA_amd = iA_nat(p_amd,p_amd);
+
+	save('iA_nat.mat', 'iA_nat','-v6');
+	save('iA_mor.mat', 'iA_mor','-v6');
+	save('iA_hil.mat', 'iA_hil','-v6');
+	save('iA_ndi.mat', 'iA_ndi','-v6');
+	save('iA_rcm.mat', 'iA_rcm','-v6');
+	save('iA_amd.mat', 'iA_amd','-v6');
+	disp('End of the program...');
 end
