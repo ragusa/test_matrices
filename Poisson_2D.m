@@ -10,7 +10,7 @@ n = 2^q
 N = n*n;
 % n = 2^5 = 32; % Problem size in linear dimension
 
-flag_save_files = 0;
+flag_save_files = 1;
 
 h = 1/(n+1);
 h2=(n+1)*(n+1);
@@ -165,11 +165,11 @@ if (flag_save_files ==1)
 	iA_rcm = iA_nat(p_rcm,p_rcm);
 	iA_amd = iA_nat(p_amd,p_amd);
 
-	save('iA_nat.mat', 'iA_nat','-v6');
-	save('iA_mor.mat', 'iA_mor','-v6');
-	save('iA_hil.mat', 'iA_hil','-v6');
-	save('iA_ndi.mat', 'iA_ndi','-v6');
-	save('iA_rcm.mat', 'iA_rcm','-v6');
-	save('iA_amd.mat', 'iA_amd','-v6');
+	save('iA_nat.mat', 'iA_nat','-ascii');
+	% save('iA_mor.mat', 'iA_mor','-v6');
+	% save('iA_hil.mat', 'iA_hil','-v6');
+	% save('iA_ndi.mat', 'iA_ndi','-v6');
+	% save('iA_rcm.mat', 'iA_rcm','-v6');
+	% save('iA_amd.mat', 'iA_amd','-v6');
 	disp('End of the program...');
 end
