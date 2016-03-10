@@ -5,13 +5,14 @@ addpath ./Morton;
 addpath ./Hilbert;
 addpath ./Plotting;
 
-q = 14;
+q = 2;
 n = 2^q;
 N = n
 
 flag_save_files = 1;
 
-K1D = spdiags(ones(n,1)*[1 -2 1.1],-1:1,n,n);   % 1d Poisson matrix (negative Laplacian)
+K1D = spdiags(ones(n,1)*[1 -2 1],-1:1,n,n);   % 1d Poisson matrix (negative Laplacian)
+full(K1D)
 
 % % % Natural ordering % % %
 p_nat = [1:n];		% Natural ordering
