@@ -1,7 +1,12 @@
 
 # gitignore
 
+*~
+
 *.mat
+*.mtx
+
+
 # *.png
 *.jpg
 *.jpeg
